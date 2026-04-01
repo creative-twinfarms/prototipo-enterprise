@@ -1,4 +1,4 @@
-import { Download, Grid3X3, List, Pencil, Search, Trash2, UserPlus } from "lucide-react";
+import { Download, Grid3X3, List, Pencil, Search, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -376,13 +376,6 @@ export default function ProductoresPage() {
             )}
           </button>
 
-          <button
-            onClick={() => navigate("/agregar-productor")}
-            className="flex shrink-0 items-center gap-[8px] rounded-[8px] bg-[#00512f] px-[14px] py-[8px] font-['Poppins:Medium',sans-serif] text-[13px] text-white transition-colors duration-200 hover:bg-[#0a6a42]"
-          >
-            <UserPlus className="h-[16px] w-[16px]" />
-            Agregar productor
-          </button>
         </div>
       </div>
 

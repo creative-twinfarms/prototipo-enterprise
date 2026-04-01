@@ -4,6 +4,7 @@ import { ShoppingBasket, Info, Award, Trees, ChevronLeft, ChevronRight } from "l
 import svgPaths from "../../imports/svg-hjpn4qlg61";
 import imgPortada from "figma:asset/083482ecb3b1ddbb1ed6a6d8e5e06d5a5e6d7e22.png";
 import { TabButton } from "../components/TabButton";
+import { CertificatesTab } from "../components/CertificatesTab";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { DeforestacionTab } from "../components/deforestacion/DeforestacionTab";
 import { EnterpriseInfoTab, type EnterpriseInfoContent } from "../components/EnterpriseInfoTab";
@@ -168,6 +169,7 @@ export default function ProductorPerfilPage() {
   };
 
   const richInfoContent = id ? richProducerInfoContent[id] : undefined;
+  const hasRichCertificates = id === "1" || id === "2";
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? productor.carouselImages.length - 1 : prev - 1));
   };
@@ -347,14 +349,18 @@ export default function ProductorPerfilPage() {
             </div>
           )
         ) : activeTab === "certificados" ? (
-          <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
-            <div className="bg-[#fff8e1] rounded-full p-6">
-              <Award className="w-16 h-16 text-[#f57c00]" />
+          hasRichCertificates ? (
+            <CertificatesTab />
+          ) : (
+            <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
+              <div className="bg-[#fff8e1] rounded-full p-6">
+                <Award className="w-16 h-16 text-[#f57c00]" />
+              </div>
+              <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
+                Certificaciones orgánicas y de calidad del productor
+              </p>
             </div>
-            <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
-              Certificaciones orgánicas y de calidad del productor
-            </p>
-          </div>
+          )
         ) : (
           <DeforestacionTab />
         )}

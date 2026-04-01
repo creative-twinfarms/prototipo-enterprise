@@ -4,6 +4,7 @@ import svgPaths from "../../imports/svg-hjpn4qlg61";
 import imgPortada from "figma:asset/083482ecb3b1ddbb1ed6a6d8e5e06d5a5e6d7e22.png";
 import imgAvatar from "figma:asset/19b88fb142dd349b57fb017e29ae759d0d1b7a81.png";
 import { TabButton } from "../components/TabButton";
+import { CertificatesTab } from "../components/CertificatesTab";
 import { DeforestacionTab } from "../components/deforestacion/DeforestacionTab";
 import { EnterpriseInfoTab } from "../components/EnterpriseInfoTab";
 import clsx from "clsx";
@@ -425,17 +426,7 @@ export default function PerfilPage() {
         ) : activeTab === "informacion" ? (
           <EnterpriseInfoTab />
         ) : activeTab === "certificados" ? (
-          <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
-            <div className="bg-[#fff8e1] rounded-full p-6">
-              <Award className="w-16 h-16 text-[#f57c00]" />
-            </div>
-            <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
-              Muestra tus certificaciones orgánicas y de calidad para generar confianza en tus productos
-            </p>
-            <button className="bg-[#00512f] hover:bg-[#003d24] text-white font-['Poppins:Medium',sans-serif] text-[14px] px-6 py-3 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-              Agregar Certificados
-            </button>
-          </div>
+          <CertificatesTab />
         ) : (
           <DeforestacionTab />
         )}

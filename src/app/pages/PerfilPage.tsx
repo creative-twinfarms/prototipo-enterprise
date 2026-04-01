@@ -5,6 +5,7 @@ import imgPortada from "figma:asset/083482ecb3b1ddbb1ed6a6d8e5e06d5a5e6d7e22.png
 import imgAvatar from "figma:asset/19b88fb142dd349b57fb017e29ae759d0d1b7a81.png";
 import { TabButton } from "../components/TabButton";
 import { DeforestacionTab } from "../components/deforestacion/DeforestacionTab";
+import { EnterpriseInfoTab } from "../components/EnterpriseInfoTab";
 import clsx from "clsx";
 
 type Cover3Helper1Props = {
@@ -422,17 +423,7 @@ export default function PerfilPage() {
           </div>
         </div>
         ) : activeTab === "informacion" ? (
-          <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
-            <div className="bg-[#e8f5e9] rounded-full p-6">
-              <Info className="w-16 h-16 text-[#00512f]" />
-            </div>
-            <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
-              Agrega información detallada sobre tu granja para que tus clientes te conozcan mejor
-            </p>
-            <button className="bg-[#00512f] hover:bg-[#003d24] text-white font-['Poppins:Medium',sans-serif] text-[14px] px-6 py-3 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-              Agregar Información
-            </button>
-          </div>
+          <EnterpriseInfoTab />
         ) : activeTab === "certificados" ? (
           <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
             <div className="bg-[#fff8e1] rounded-full p-6">

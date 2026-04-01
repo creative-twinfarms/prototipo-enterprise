@@ -2,12 +2,6 @@ import { Info, ChevronDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from "recharts";
 
 const deforestationData = [
-  { year: "2014", noDeforestation: 75, deforestation: 25 },
-  { year: "2015", noDeforestation: 80, deforestation: 20 },
-  { year: "2016", noDeforestation: 72, deforestation: 28 },
-  { year: "2017", noDeforestation: 78, deforestation: 22 },
-  { year: "2018", noDeforestation: 85, deforestation: 15 },
-  { year: "2019", noDeforestation: 82, deforestation: 18 },
   { year: "2020", noDeforestation: 76, deforestation: 24 },
   { year: "2021", noDeforestation: 79, deforestation: 21 },
   { year: "2022", noDeforestation: 74, deforestation: 26 },
@@ -127,14 +121,14 @@ export function StackedBarChart({
           <div className="w-[12px] h-[12px] md:w-[16px] md:h-[16px] rounded-full bg-[#144818] flex-shrink-0" />
           <p className="font-['Poppins:Regular',sans-serif] text-[12px] md:text-[14px] text-[#161c24] leading-[1.43] tracking-[0.17px]">
             <span className="md:hidden">No Defor</span>
-            <span className="hidden md:inline">No Deforestation</span>
+            <span className="hidden md:inline">No Deforestación</span>
           </p>
         </div>
         <div className="flex items-center gap-[6px] md:gap-[8px]">
           <div className="w-[12px] h-[12px] md:w-[16px] md:h-[16px] rounded-full bg-[#EF5350] flex-shrink-0" />
           <p className="font-['Poppins:Regular',sans-serif] text-[12px] md:text-[14px] text-[#161c24] leading-[1.43] tracking-[0.17px]">
             <span className="md:hidden">Deforest</span>
-            <span className="hidden md:inline">Deforestation</span>
+            <span className="hidden md:inline">Deforestación</span>
           </p>
         </div>
       </div>

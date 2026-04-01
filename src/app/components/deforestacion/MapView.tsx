@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MapPin, ChevronDown } from "lucide-react";
-import imgMapOfAPartOfEeuuMostlyFarmsAndRuralAreRoadsTiversAndLakes from "figma:asset/dbbd19cb4316f139c3446f89b01ca684b492fecb.png";
+import mapDeforestacion from "../../../assets/map-deforestacion.png";
 
 type MapViewProps = {
   collapsible?: boolean;
@@ -35,9 +35,9 @@ export function MapView({ collapsible = false }: MapViewProps) {
           <div className="relative w-full h-[300px]">
             {/* Mapa de fondo */}
             <img 
-              src={imgMapOfAPartOfEeuuMostlyFarmsAndRuralAreRoadsTiversAndLakes} 
+              src={mapDeforestacion} 
               alt="Satellite map view" 
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-center"
             />
             
             {/* Overlay de polígono verde translúcido */}
@@ -67,9 +67,9 @@ export function MapView({ collapsible = false }: MapViewProps) {
     <div className="relative w-full h-full rounded-[8px] overflow-hidden shadow-[0px_0px_2px_0px_#d7d7d7]">
       {/* Mapa de fondo */}
       <img 
-        src={imgMapOfAPartOfEeuuMostlyFarmsAndRuralAreRoadsTiversAndLakes} 
+        src={mapDeforestacion} 
         alt="Satellite map view" 
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover object-center"
       />
       
       {/* Overlay de polígono verde translúcido */}

@@ -2,8 +2,8 @@ import { Info } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const data = [
-  { name: "No deforestation", value: 55.9, color: "#144818" },
-  { name: "Deforestation", value: 28.5, color: "#EF5350" }
+  { name: "No Deforestación", value: 55.9, color: "#144818" },
+  { name: "Deforestación", value: 28.5, color: "#EF5350" }
 ];
 
 export function DonutChartCard() {
@@ -14,7 +14,7 @@ export function DonutChartCard() {
       {/* Header */}
       <div className="flex items-start md:items-center gap-[8px] mb-[16px] md:mb-[24px]">
         <p className="font-['Poppins:Medium',sans-serif] text-[14px] md:text-[16px] text-[#161c24] leading-[1.4] tracking-[0.15px]">
-          Porcentaje actual de humedad
+          Porcentaje actual de deforestación
         </p>
         <Info className="w-[18px] h-[18px] md:w-[20px] md:h-[20px] text-[#FE8340] flex-shrink-0" />
       </div>
@@ -66,7 +66,10 @@ export function DonutChartCard() {
 
           {/* Table Rows */}
           {data.map((item, index) => (
-            <div key={index} className="flex items-center border-b border-[#dfe3e8]">
+            <div
+              key={index}
+              className="flex items-center border-b border-[#dfe3e8] transition-colors hover:bg-[#f5f5f5]"
+            >
               <div className="flex-1 md:w-[173px] px-[8px] md:px-[16px] py-[4px] flex items-center gap-[4px]">
                 <div className="w-[12px] h-[12px] md:w-[16px] md:h-[16px] rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
                 <p className="font-['Poppins:Regular',sans-serif] text-[13px] md:text-[14px] text-[#161c24] leading-[1.43] tracking-[0.17px]">

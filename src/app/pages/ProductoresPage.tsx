@@ -1,5 +1,5 @@
-import { Download, Grid3X3, List, Search, UserPlus } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Download, Grid3X3, List, Pencil, Search, Trash2, UserPlus } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { productoresList } from "../data/productoresData";
@@ -14,6 +14,8 @@ type FarmRowProps = {
   profilePhoto: string;
   isSelected: boolean;
   onToggleSelect: (id: number) => void;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
   onClick: () => void;
 };
 
@@ -27,6 +29,8 @@ function FarmRow({
   profilePhoto,
   isSelected,
   onToggleSelect,
+  onEdit,
+  onDelete,
   onClick,
 }: FarmRowProps) {
   return (
@@ -92,6 +96,27 @@ function FarmRow({
           <span className="font-['Poppins:SemiBold',sans-serif] text-[13px] text-[#00512f] md:text-[14px]">
             {hectares} Ha
           </span>
+        </div>
+
+        <div className="ml-auto flex shrink-0 items-center gap-[8px]" onClick={(event) => event.stopPropagation()}>
+          <button
+            type="button"
+            onClick={() => onEdit(id)}
+            className="flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-[#dfe3e8] bg-white text-[#0F7A4D] transition-colors duration-200 hover:border-[#0F7A4D] hover:bg-[#f0f7f3]"
+            title="Editar productor"
+            aria-label={`Editar a ${producerName}`}
+          >
+            <Pencil className="h-[16px] w-[16px]" />
+          </button>
+          <button
+            type="button"
+            onClick={() => onDelete(id)}
+            className="flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-[#f3d0d0] bg-white text-[#c62828] transition-colors duration-200 hover:border-[#c62828] hover:bg-[#fff3f3]"
+            title="Eliminar productor"
+            aria-label={`Eliminar a ${producerName}`}
+          >
+            <Trash2 className="h-[16px] w-[16px]" />
+          </button>
         </div>
       </div>
     </div>
@@ -188,11 +213,12 @@ function FarmCard({
 
 export default function ProductoresPage() {
   const navigate = useNavigate();
+  const resultsContainerRef = useRef<HTMLDivElement | null>(null);
   const [selectedFarms, setSelectedFarms] = useState<number[]>([]);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const farms = productoresList;
 
   const filteredFarms = useMemo(
@@ -210,6 +236,48 @@ export default function ProductoresPage() {
     { length: Math.min(5, totalPages) },
     (_, index) => pageWindowStart + index,
   );
+
+  useEffect(() => {
+    const calculateItemsPerPage = () => {
+      if (!resultsContainerRef.current) {
+        return;
+      }
+
+      const containerTop = resultsContainerRef.current.getBoundingClientRect().top;
+      const viewportHeight = window.innerHeight;
+      const isDesktop = window.innerWidth >= 768;
+      const isLargeDesktop = window.innerWidth >= 1024;
+      const footerReserve = isDesktop ? 132 : 156;
+      const availableHeight = Math.max(viewportHeight - containerTop - footerReserve, 0);
+
+      if (viewMode === "grid") {
+        const columns = isLargeDesktop ? 3 : isDesktop ? 2 : 1;
+        const cardHeight = 332;
+        const rowsThatFit = Math.max(1, Math.floor(availableHeight / cardHeight));
+        setItemsPerPage(rowsThatFit * columns);
+        return;
+      }
+
+      const rowHeight = isDesktop ? 76 : 72;
+      const rowsThatFit = Math.max(4, Math.floor(availableHeight / rowHeight));
+      setItemsPerPage(rowsThatFit);
+    };
+
+    calculateItemsPerPage();
+    window.addEventListener("resize", calculateItemsPerPage);
+
+    return () => window.removeEventListener("resize", calculateItemsPerPage);
+  }, [viewMode]);
+
+  useEffect(() => {
+    setCurrentPage((prevPage) => {
+      if (totalPages === 0) {
+        return 1;
+      }
+
+      return Math.min(prevPage, totalPages);
+    });
+  }, [totalPages]);
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
@@ -248,6 +316,14 @@ export default function ProductoresPage() {
 
   const handleDownloadAll = () => {
     alert(`Descargando PDF de los ${farms.length} productores`);
+  };
+
+  const handleEditProducer = (id: number) => {
+    alert(`Editar productor ${id} (demo)`);
+  };
+
+  const handleDeleteProducer = (id: number) => {
+    alert(`Eliminar productor ${id} (demo)`);
   };
 
   return (
@@ -358,7 +434,7 @@ export default function ProductoresPage() {
         </p>
       </div>
 
-      <div className="w-full">
+      <div ref={resultsContainerRef} className="w-full">
         {viewMode === "list" ? (
           <div className="w-full">
             {currentFarms.map((farm) => (
@@ -373,6 +449,8 @@ export default function ProductoresPage() {
                 profilePhoto={farm.profilePhoto}
                 isSelected={selectedFarms.includes(farm.id)}
                 onToggleSelect={handleToggleSelect}
+                onEdit={handleEditProducer}
+                onDelete={handleDeleteProducer}
                 onClick={() => navigate(`/productores/${farm.id}`)}
               />
             ))}

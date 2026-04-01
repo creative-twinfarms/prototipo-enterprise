@@ -1,38 +1,55 @@
-import type { ElementType } from "react";
+﻿import type { ElementType } from "react";
 import { BriefcaseBusiness, ClipboardList } from "lucide-react";
 
-const aboutHighlights = [
-  {
-    title: "Familia",
-    description: "3 generaciones dedicados al cultivo",
-  },
-  {
-    title: "Experiencia",
-    description: "Más de 25 años en el sector",
-  },
-  {
-    title: "Misión",
-    description: "Calidad superior y sostenibilidad",
-  },
-];
+type DetailItem = {
+  title: string;
+  description: string;
+};
 
-const processSteps = [
-  {
-    title: "Siembra y Plantación",
-    description:
-      "Selección cuidadosa de plantones certificados y preparación especializada del terreno con análisis de suelo previo.",
-  },
-  {
-    title: "Cuidado y Mantenimiento",
-    description:
-      "Riego por goteo, poda especializada y fertilización orgánica siguiendo las mejores prácticas agrícolas.",
-  },
-  {
-    title: "Cosecha y Selección",
-    description:
-      "Recolección manual en el punto óptimo de maduración y clasificación por calidad y tamaño.",
-  },
-];
+export type EnterpriseInfoContent = {
+  aboutDescription: string;
+  aboutHighlights: DetailItem[];
+  processDescription: string;
+  processSteps: DetailItem[];
+};
+
+const defaultContent: EnterpriseInfoContent = {
+  aboutDescription:
+    "En la Finca Twins Farm, somos una explotación familiar de mangos dedicada a las prácticas sostenibles y a la calidad superior. Nuestros vibrantes huertos producen una variedad de mangos exquisitos, cada uno de ellos testimonio de nuestro compromiso con la tierra y la protección del medio ambiente.",
+  aboutHighlights: [
+    {
+      title: "Familia",
+      description: "3 generaciones dedicados al cultivo",
+    },
+    {
+      title: "Experiencia",
+      description: "Más de 25 años en el sector",
+    },
+    {
+      title: "Misión",
+      description: "Calidad superior y sostenibilidad",
+    },
+  ],
+  processDescription:
+    "Nuestro proceso de cultivo del mango comienza con la cuidadosa selección de plantones de alta calidad, seguida de un esmerado cuidado durante todo su crecimiento. Utilizamos métodos de cultivo ecológicos, dando prioridad a la salud del suelo y del medio ambiente circundante.",
+  processSteps: [
+    {
+      title: "Siembra y Plantación",
+      description:
+        "Selección cuidadosa de plantones certificados y preparación especializada del terreno con análisis de suelo previo.",
+    },
+    {
+      title: "Cuidado y Mantenimiento",
+      description:
+        "Riego por goteo, poda especializada y fertilización orgánica siguiendo las mejores prácticas agrícolas.",
+    },
+    {
+      title: "Cosecha y Selección",
+      description:
+        "Recolección manual en el punto óptimo de maduración y clasificación por calidad y tamaño.",
+    },
+  ],
+};
 
 type SectionHeaderProps = {
   title: string;
@@ -59,10 +76,7 @@ function SectionHeader({ title, description, icon: Icon }: SectionHeaderProps) {
   );
 }
 
-type DetailCardProps = {
-  title: string;
-  description: string;
-};
+type DetailCardProps = DetailItem;
 
 function DetailCard({ title, description }: DetailCardProps) {
   return (
@@ -77,13 +91,19 @@ function DetailCard({ title, description }: DetailCardProps) {
   );
 }
 
-export function EnterpriseInfoTab() {
+type EnterpriseInfoTabProps = {
+  content?: EnterpriseInfoContent;
+};
+
+export function EnterpriseInfoTab({ content = defaultContent }: EnterpriseInfoTabProps) {
+  const { aboutDescription, aboutHighlights, processDescription, processSteps } = content;
+
   return (
     <div className="flex w-full flex-col gap-[20px] md:gap-[28px]">
       <section className="rounded-[20px] border border-[#d9dfe6] bg-white px-[20px] py-[22px] md:px-[26px] md:py-[28px]">
         <SectionHeader
           title="Sobre Nosotros"
-          description="En la Finca Twins Farm, somos una explotación familiar de mangos dedicada a las prácticas sostenibles y a la calidad superior. Nuestros vibrantes huertos producen una variedad de mangos exquisitos, cada uno de ellos testimonio de nuestro compromiso con la tierra y la protección del medio ambiente."
+          description={aboutDescription}
           icon={BriefcaseBusiness}
         />
 
@@ -97,7 +117,7 @@ export function EnterpriseInfoTab() {
       <section className="rounded-[20px] border border-[#d9dfe6] bg-white px-[20px] py-[22px] md:px-[26px] md:py-[28px]">
         <SectionHeader
           title="Nuestros Procesos"
-          description="Nuestro proceso de cultivo del mango comienza con la cuidadosa selección de plantones de alta calidad, seguida de un esmerado cuidado durante todo su crecimiento. Utilizamos métodos de cultivo ecológicos, dando prioridad a la salud del suelo y del medio ambiente circundante."
+          description={processDescription}
           icon={ClipboardList}
         />
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useParams } from "react-router";
 import { ShoppingBasket, Info, Award, Trees, ChevronLeft, ChevronRight } from "lucide-react";
 import svgPaths from "../../imports/svg-hjpn4qlg61";
@@ -6,6 +6,7 @@ import imgPortada from "figma:asset/083482ecb3b1ddbb1ed6a6d8e5e06d5a5e6d7e22.png
 import { TabButton } from "../components/TabButton";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { DeforestacionTab } from "../components/deforestacion/DeforestacionTab";
+import { EnterpriseInfoTab, type EnterpriseInfoContent } from "../components/EnterpriseInfoTab";
 import { productoresData } from "../data/productoresData";
 import clsx from "clsx";
 
@@ -92,6 +93,65 @@ function Text({ text }: TextProps) {
   );
 }
 
+const richProducerInfoContent: Record<string, EnterpriseInfoContent> = {
+  "1": {
+    aboutDescription:
+      "En la finca de Carlos Mendoza desarrollamos una producción agrícola diversificada enfocada en cacao de alta calidad, combinando tradición familiar con prácticas responsables de manejo del suelo, agua y biodiversidad.",
+    aboutHighlights: [
+      { title: "Trayectoria", description: "Más de 18 años cultivando cacao y café" },
+      { title: "Enfoque", description: "Producción diversificada con manejo sostenible" },
+      { title: "Compromiso", description: "Calidad constante y cuidado del territorio" },
+    ],
+    processDescription:
+      "Nuestro modelo productivo integra una planificación técnica del cultivo, labores permanentes de mantenimiento y una cosecha cuidadosa que preserva la calidad del producto desde la finca hasta su comercialización.",
+    processSteps: [
+      {
+        title: "Establecimiento del Cultivo",
+        description:
+          "Seleccionamos variedades adaptadas a la zona y preparamos el terreno con criterios de conservación y nutrición del suelo.",
+      },
+      {
+        title: "Manejo Productivo",
+        description:
+          "Realizamos podas, monitoreo sanitario y fertilización planificada para mantener un desarrollo equilibrado del cultivo.",
+      },
+      {
+        title: "Cosecha y Postcosecha",
+        description:
+          "Recolectamos en el punto óptimo y aplicamos procesos de selección y acondicionamiento para asegurar uniformidad y calidad.",
+      },
+    ],
+  },
+  "2": {
+    aboutDescription:
+      "La finca de Maria Garcia se especializa en una producción agrícola organizada y sostenible, con foco en cacao y cultivos complementarios que fortalecen la productividad del predio y la estabilidad de cada campaña.",
+    aboutHighlights: [
+      { title: "Experiencia", description: "Más de 15 años en gestión agrícola integral" },
+      { title: "Especialidad", description: "Cacao y cultivos de apoyo de alto rendimiento" },
+      { title: "Visión", description: "Eficiencia operativa con prácticas responsables" },
+    ],
+    processDescription:
+      "Trabajamos con un esquema ordenado de siembra, seguimiento técnico y cosecha para garantizar un producto confiable, trazable y alineado con estándares de calidad del mercado.",
+    processSteps: [
+      {
+        title: "Planificación y Siembra",
+        description:
+          "Organizamos calendarios productivos, selección de insumos y establecimiento de cultivos según las condiciones del terreno.",
+      },
+      {
+        title: "Seguimiento y Cuidado",
+        description:
+          "Aplicamos control agronómico, riego y labores de mantenimiento para sostener la sanidad y productividad del sistema.",
+      },
+      {
+        title: "Recolección y Clasificación",
+        description:
+          "Ejecutamos una cosecha ordenada y una clasificación por estado, calidad y destino comercial de cada lote.",
+      },
+    ],
+  },
+};
+
 export default function ProductorPerfilPage() {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState<"productos" | "informacion" | "certificados" | "deforestacion">("productos");
@@ -107,6 +167,7 @@ export default function ProductorPerfilPage() {
     productosConvencionales: []
   };
 
+  const richInfoContent = id ? richProducerInfoContent[id] : undefined;
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? productor.carouselImages.length - 1 : prev - 1));
   };
@@ -273,14 +334,18 @@ export default function ProductorPerfilPage() {
           )}
         </div>
         ) : activeTab === "informacion" ? (
-          <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
-            <div className="bg-[#e8f5e9] rounded-full p-6">
-              <Info className="w-16 h-16 text-[#00512f]" />
+          richInfoContent ? (
+            <EnterpriseInfoTab content={richInfoContent} />
+          ) : (
+            <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
+              <div className="bg-[#e8f5e9] rounded-full p-6">
+                <Info className="w-16 h-16 text-[#00512f]" />
+              </div>
+              <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
+                Información detallada sobre el productor y sus prácticas agrícolas
+              </p>
             </div>
-            <p className="font-['Poppins:Medium',sans-serif] text-[18px] text-[#161c24] text-center max-w-md">
-              Información detallada sobre el productor y sus prácticas agrícolas
-            </p>
-          </div>
+          )
         ) : activeTab === "certificados" ? (
           <div className="flex flex-col items-center justify-center w-full py-24 gap-6">
             <div className="bg-[#fff8e1] rounded-full p-6">

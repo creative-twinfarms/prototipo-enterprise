@@ -4,7 +4,6 @@ import { CertificationStats } from "../components/dashboard/CertificationStats";
 import { DeforestationAlert } from "../components/dashboard/DeforestationAlert";
 import { DeforestationStats } from "../components/dashboard/DeforestationStats";
 import { MetricCard } from "../components/dashboard/MetricCard";
-import { ProducerNews } from "../components/dashboard/ProducerNews";
 import {
   Select,
   SelectContent,
@@ -156,8 +155,6 @@ export default function DashboardPage() {
         <CertificationStats />
         <DeforestationStats />
       </div>
-
-      <ProducerNews />
     </div>
   );
 }

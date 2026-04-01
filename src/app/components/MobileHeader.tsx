@@ -1,4 +1,5 @@
 import { Menu, MapPin } from "lucide-react";
+import { Link } from "react-router";
 import svgPaths from "../../imports/svg-c8nvsfhn8f";
 
 type MobileHeaderProps = {
@@ -19,7 +20,11 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
         </button>
 
         {/* Logo Twin Farms Centrado */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center h-[27.75px]">
+        <Link
+          to="/"
+          className="absolute left-1/2 flex h-[27.75px] -translate-x-1/2 flex-col items-center justify-center rounded-[8px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+          aria-label="Ir al inicio"
+        >
           <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
             <div className="col-1 h-[15.777px] ml-0 mt-0 relative row-1 w-[88.277px]" data-name="Group">
               <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 88.2775 15.7771">
@@ -43,7 +48,7 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
               </svg>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Location Icon */}
         <button

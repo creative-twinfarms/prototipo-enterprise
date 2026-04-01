@@ -1,4 +1,5 @@
 import { Bell } from "lucide-react";
+import { Link } from "react-router";
 import svgPaths from "../../imports/svg-hjpn4qlg61";
 import { productoresList } from "../data/productoresData";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -33,7 +34,11 @@ export function Header() {
     <div className="fixed left-0 right-0 top-0 z-20 hidden h-[70px] bg-[#00512f] md:block">
       <div className="flex size-full flex-row items-end">
         <div className="relative flex w-full items-end justify-between px-[24px] py-[16px]">
-          <div className="relative flex shrink-0 items-end gap-[3px]">
+          <Link
+            to="/"
+            className="relative flex shrink-0 items-end gap-[3px] rounded-[8px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            aria-label="Ir al inicio"
+          >
             <div className="relative h-[38px] w-[78.924px] shrink-0" data-name="Group">
               <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 78.9238 38">
                 <g id="Group">
@@ -44,7 +49,7 @@ export function Header() {
               </svg>
             </div>
             <div className="relative inline-grid shrink-0 grid-cols-[max-content] grid-rows-[max-content] place-items-start leading-[0]">
-              <div className="col-1 row-1 ml-0 mt-0 h-[20.355px] w-[114.046px]" data-name="Group">
+              <div className="relative col-1 row-1 ml-0 mt-0 h-[20.355px] w-[114.046px]" data-name="Group">
                 <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 114.046 20.3554">
                   <g id="Group">
                     <path d={svgPaths.pbefb200} fill="var(--fill-0, #F9FAFB)" id="Vector" />
@@ -54,7 +59,7 @@ export function Header() {
                   </g>
                 </svg>
               </div>
-              <div className="col-1 row-1 ml-[20.29px] mt-[27.34px] h-[8.466px] w-[73.24px]" data-name="Group">
+              <div className="relative col-1 row-1 ml-[20.29px] mt-[27.34px] h-[8.466px] w-[73.24px]" data-name="Group">
                 <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 73.2404 8.46654">
                   <g id="Group">
                     <path d={svgPaths.p2df94f80} fill="var(--fill-0, #F9FAFB)" id="Vector" />
@@ -66,7 +71,7 @@ export function Header() {
                 </svg>
               </div>
             </div>
-          </div>
+          </Link>
 
           <div className="relative flex shrink-0 items-center gap-[16px]">
             <Popover>

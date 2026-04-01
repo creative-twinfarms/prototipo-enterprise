@@ -13,256 +13,324 @@ export type ProductorData = {
   productosConvencionales: Producto[];
 };
 
-export const productoresData: Record<string, ProductorData> = {
-  // Carlos Mendoza - Productor principal de Cacao Fino de Aroma
+export type ProducerListItem = {
+  id: number;
+  producerName: string;
+  farmName: string;
+  location: string;
+  product: string;
+  hectares: number;
+  profilePhoto: string;
+  imageUrl: string;
+};
+
+const sharedImages = {
+  cacaoPods:
+    "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  cacaoBeans:
+    "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  cocoaLandscape:
+    "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  tropicalFarm:
+    "https://images.unsplash.com/photo-1765052293482-654d98e11e91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  agriculturalFields:
+    "https://images.unsplash.com/photo-1642504917866-f48ec5eb3b57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  coffeeAerial:
+    "https://images.unsplash.com/photo-1599565103151-694e8f2745e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  greenLandscape:
+    "https://images.unsplash.com/photo-1765570265263-edda751afcd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  malePortrait1:
+    "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  femalePortrait1:
+    "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  malePortrait2:
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  femalePortrait2:
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  malePortrait3:
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  malePortrait4:
+    "https://images.unsplash.com/photo-1601442243230-f0c3bb61402c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  femalePortrait3:
+    "https://images.unsplash.com/photo-1643892055607-192cf75e93f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  malePortrait5:
+    "https://images.unsplash.com/photo-1627829380497-49c37b769ea6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  malePortrait6:
+    "https://images.unsplash.com/photo-1654727317152-b8178b6083ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+};
+
+const genericAvatars = [
+  sharedImages.malePortrait3,
+  sharedImages.femalePortrait3,
+  sharedImages.malePortrait4,
+  sharedImages.malePortrait5,
+  sharedImages.femalePortrait1,
+  sharedImages.malePortrait6,
+];
+
+const genericFarmImages = [
+  sharedImages.cocoaLandscape,
+  sharedImages.agriculturalFields,
+  sharedImages.tropicalFarm,
+  sharedImages.coffeeAerial,
+  sharedImages.greenLandscape,
+];
+
+const genericCarouselImages = [
+  sharedImages.cocoaLandscape,
+  sharedImages.cacaoPods,
+  sharedImages.agriculturalFields,
+  sharedImages.greenLandscape,
+  sharedImages.tropicalFarm,
+];
+
+const organicProductTemplates: Producto[] = [
+  { nombre: "Cacao Organico", tipo: "Mazorca", imagen: sharedImages.cacaoPods },
+  { nombre: "Granos de Cacao", tipo: "Fermentado", imagen: sharedImages.cacaoBeans },
+  { nombre: "Nibs de Cacao", tipo: "Procesado", imagen: sharedImages.cacaoBeans },
+];
+
+const conventionalProductTemplates: Producto[] = [
+  { nombre: "Banano", tipo: "Fruta", imagen: sharedImages.greenLandscape },
+  { nombre: "Cafe", tipo: "Grano", imagen: sharedImages.coffeeAerial },
+  { nombre: "Yuca", tipo: "Tuberculo", imagen: sharedImages.agriculturalFields },
+];
+
+const firstNames = [
+  "Diego", "Luisa", "Fernando", "Carmen", "Miguel", "Patricia", "Alejandro", "Sofia",
+  "Daniel", "Valeria", "Andres", "Camila", "Javier", "Paula", "Ricardo", "Elena",
+  "Martin", "Gabriela", "Rafael", "Laura", "Nicolas", "Teresa", "Hector", "Juliana",
+  "Mauricio", "Adriana", "Oscar", "Natalia", "Felipe", "Claudia", "Esteban", "Monica",
+  "Victor", "Andrea", "Pablo", "Daniela", "Sebastian", "Veronica", "Tomas", "Lorena",
+];
+
+const lastNames = [
+  "Fernandez", "Torres", "Lopez", "Ruiz", "Castro", "Vargas", "Campos", "Mendez",
+  "Suarez", "Navarro", "Rojas", "Herrera", "Medina", "Guerrero", "Paredes", "Acosta",
+  "Salazar", "Benitez", "Ortega", "Fuentes", "Molina", "Delgado", "Vega", "Santos",
+  "Peña", "Bermudez", "Rosales", "Quintero", "Carrasco", "Ayala", "Mora", "Ibarra",
+  "Valdez", "Cabrera", "Mejia", "Cortes", "Luna", "Serrano", "Bravo", "Palacios",
+];
+
+const farmPrefixes = [
+  "Finca", "Hacienda", "Rancho", "Reserva", "Villa", "Plantacion", "Estancia", "Granja",
+];
+
+const farmSuffixes = [
+  "La Esperanza", "Los Cedros", "Santa Rosa", "San Miguel", "Las Brisas", "El Dorado",
+  "Valle Verde", "Los Robles", "El Encanto", "Monte Claro", "El Paraiso", "Las Palmas",
+  "Buenavista", "La Colina", "Nueva Aurora", "Rio Verde",
+];
+
+const locations = [
+  "Santo Domingo, Ecuador",
+  "Arequipa, Peru",
+  "Patzcuaro, Mexico",
+  "Antioquia, Colombia",
+  "Cusco, Peru",
+  "Chiapas, Mexico",
+  "Quito, Ecuador",
+  "Lima, Peru",
+  "Cartago, Costa Rica",
+  "Santander, Colombia",
+  "Guatemala City, Guatemala",
+  "Oaxaca, Mexico",
+  "Managua, Nicaragua",
+  "San Pedro Sula, Honduras",
+  "Tarapoto, Peru",
+  "Esmeraldas, Ecuador",
+];
+
+const richProducerList: ProducerListItem[] = [
+  {
+    id: 1,
+    producerName: "Carlos Mendoza",
+    farmName: "Finca La Esperanza",
+    location: "Santo Domingo, Ecuador",
+    product: "Cacao",
+    hectares: 2.5,
+    profilePhoto: sharedImages.malePortrait1,
+    imageUrl: sharedImages.cocoaLandscape,
+  },
+  {
+    id: 2,
+    producerName: "Maria Garcia",
+    farmName: "Hacienda San Jose",
+    location: "Arequipa, Peru",
+    product: "Cacao",
+    hectares: 1.8,
+    profilePhoto: sharedImages.femalePortrait1,
+    imageUrl: sharedImages.agriculturalFields,
+  },
+  {
+    id: 3,
+    producerName: "Jose Ramirez",
+    farmName: "Rancho Verde",
+    location: "Patzcuaro, Mexico",
+    product: "Cacao",
+    hectares: 3,
+    profilePhoto: sharedImages.malePortrait2,
+    imageUrl: sharedImages.tropicalFarm,
+  },
+  {
+    id: 4,
+    producerName: "Ana Morales",
+    farmName: "Finca La Paz",
+    location: "Antioquia, Colombia",
+    product: "Cacao",
+    hectares: 1.5,
+    profilePhoto: sharedImages.femalePortrait2,
+    imageUrl: sharedImages.coffeeAerial,
+  },
+];
+
+function buildGenericProducer(index: number): ProducerListItem {
+  const id = index + 5;
+  const firstName = firstNames[index % firstNames.length];
+  const lastName = lastNames[Math.floor(index / firstNames.length) % lastNames.length];
+  const farmPrefix = farmPrefixes[index % farmPrefixes.length];
+  const farmSuffix = farmSuffixes[(index * 3) % farmSuffixes.length];
+  const location = locations[index % locations.length];
+  const hectares = Number((1.2 + ((index * 0.37) % 3.9)).toFixed(1));
+
+  return {
+    id,
+    producerName: `${firstName} ${lastName}`,
+    farmName: `${farmPrefix} ${farmSuffix}`,
+    location,
+    product: "Cacao",
+    hectares,
+    profilePhoto: genericAvatars[index % genericAvatars.length],
+    imageUrl: genericFarmImages[index % genericFarmImages.length],
+  };
+}
+
+export const TOTAL_PRODUCTORES = 123;
+
+export const productoresList: ProducerListItem[] = [
+  ...richProducerList,
+  ...Array.from({ length: TOTAL_PRODUCTORES - richProducerList.length }, (_, index) =>
+    buildGenericProducer(index),
+  ),
+];
+
+const richProductoresData: Record<string, ProductorData> = {
   "1": {
     name: "Carlos Mendoza",
     location: "Santo Domingo, Ecuador",
-    avatar:
-      "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBmYXJtZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NzQ4MjE4OTZ8MA&ixlib=rb-4.1.0&q=80&w=400",
+    avatar: sharedImages.malePortrait1,
     carouselImages: [
-      "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGZhcm1pbmclMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzc0NzIxODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1642504917866-f48ec5eb3b57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyYWwlMjBmYXJtJTIwZmllbGRzfGVufDF8fHx8MTc3NDcyMTg0Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      sharedImages.cocoaLandscape,
+      sharedImages.cacaoPods,
+      sharedImages.agriculturalFields,
     ],
     productosOrganicos: [
-      {
-        nombre: "Cacao Fino de Aroma",
-        tipo: "Mazorca",
-        imagen:
-          "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Granos Fermentados",
-        tipo: "Cacao",
-        imagen:
-          "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGJlYW5zJTIwZmVybWVudGVkJTIwZHJ5aW5nfGVufDF8fHx8MTc3NDgyMTg5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Nibs Premium",
-        tipo: "Procesado",
-        imagen:
-          "https://images.unsplash.com/photo-1772986238545-ee975ad77780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwY2hvY29sYXRlJTIwY2FjYW8lMjBuaWJzfGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cacao Fino de Aroma", tipo: "Mazorca", imagen: sharedImages.cacaoPods },
+      { nombre: "Granos Fermentados", tipo: "Cacao", imagen: sharedImages.cacaoBeans },
+      { nombre: "Nibs Premium", tipo: "Procesado", imagen: sharedImages.cacaoBeans },
     ],
     productosConvencionales: [
-      {
-        nombre: "Café Arábica",
-        tipo: "Grano",
-        imagen:
-          "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMGZyZXNofGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Plátano Hartón",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1603833665858-e61d17a86224?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbGF0YW5vJTIwYmFuYW5hJTIwdHJvcGljYWx8ZW58MXx8fHwxNzc0ODIxODk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Yuca",
-        tipo: "Tubérculo",
-        imagen:
-          "https://images.unsplash.com/photo-1604909052743-94e838986d24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5dWNhJTIwY2Fzc2F2YSUyMHJvb3R8ZW58MXx8fHwxNzc0ODIxODk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cafe Arabica", tipo: "Grano", imagen: sharedImages.coffeeAerial },
+      { nombre: "Platano Harton", tipo: "Fruta", imagen: sharedImages.greenLandscape },
+      { nombre: "Yuca", tipo: "Tuberculo", imagen: sharedImages.agriculturalFields },
     ],
   },
-
-  // María García - Especialista en Cacao CCN-51 y cultivos mixtos
   "2": {
-    name: "María García",
-    location: "Arequipa, Perú",
-    avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGZhcm1lciUyMHBvcnRyYWl0fGVufDF8fHx8MTc3NDgyMTg5N3ww&ixlib=rb-4.1.0&q=80&w=400",
+    name: "Maria Garcia",
+    location: "Arequipa, Peru",
+    avatar: sharedImages.femalePortrait1,
     carouselImages: [
-      "https://images.unsplash.com/photo-1642504917866-f48ec5eb3b57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyYWwlMjBmYXJtJTIwZmllbGRzfGVufDF8fHx8MTc3NDcyMTg0Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGZhcm1pbmclMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzc0NzIxODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      sharedImages.agriculturalFields,
+      sharedImages.cacaoPods,
+      sharedImages.cocoaLandscape,
     ],
     productosOrganicos: [
-      {
-        nombre: "Cacao CCN-51",
-        tipo: "Mazorca",
-        imagen:
-          "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Granos Secos",
-        tipo: "Cacao",
-        imagen:
-          "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGJlYW5zJTIwZmVybWVudGVkJTIwZHJ5aW5nfGVufDF8fHx8MTc3NDgyMTg5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cacao CCN-51", tipo: "Mazorca", imagen: sharedImages.cacaoPods },
+      { nombre: "Granos Secos", tipo: "Cacao", imagen: sharedImages.cacaoBeans },
     ],
     productosConvencionales: [
-      {
-        nombre: "Maíz Amarillo",
-        tipo: "Grano",
-        imagen:
-          "https://images.unsplash.com/photo-1603006905003-be475563bc59?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3JuJTIwbWFpemUlMjB5ZWxsb3d8ZW58MXx8fHwxNzc0ODIxODk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Frijol",
-        tipo: "Leguminosa",
-        imagen:
-          "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFucyUyMGZyZXNoJTIwZHJ5fGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Aguacate Hass",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwaGFzcyUyMGZyZXNofGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Papaya",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1617112848923-cc2234396a8d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXBheWElMjBmcnVpdCUyMHRyb3BpY2FsfGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Maiz Amarillo", tipo: "Grano", imagen: sharedImages.agriculturalFields },
+      { nombre: "Frijol", tipo: "Leguminosa", imagen: sharedImages.greenLandscape },
+      { nombre: "Aguacate Hass", tipo: "Fruta", imagen: sharedImages.greenLandscape },
+      { nombre: "Papaya", tipo: "Fruta", imagen: sharedImages.tropicalFarm },
     ],
   },
-
-  // José Ramírez - Experto en cultivos tradicionales mexicanos
   "3": {
-    name: "José Ramírez",
-    location: "Pátzcuaro, México",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBwb3J0cmFpdCUyMHNtaWxlfGVufDF8fHx8MTc3NDgyMTg5OHww&ixlib=rb-4.1.0&q=80&w=400",
+    name: "Jose Ramirez",
+    location: "Patzcuaro, Mexico",
+    avatar: sharedImages.malePortrait2,
     carouselImages: [
-      "https://images.unsplash.com/photo-1765052293482-654d98e11e91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGZhcm0lMjBwbGFudGF0aW9ufGVufDF8fHx8MTc3NDcyMTg0Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGZhcm1pbmclMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzc0NzIxODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      sharedImages.tropicalFarm,
+      sharedImages.cacaoPods,
+      sharedImages.cocoaLandscape,
     ],
     productosOrganicos: [
-      {
-        nombre: "Cacao Criollo",
-        tipo: "Mazorca",
-        imagen:
-          "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Granos Tostados",
-        tipo: "Cacao",
-        imagen:
-          "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGJlYW5zJTIwZmVybWVudGVkJTIwZHJ5aW5nfGVufDF8fHx8MTc3NDgyMTg5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Licor de Cacao",
-        tipo: "Procesado",
-        imagen:
-          "https://images.unsplash.com/photo-1772986238545-ee975ad77780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwY2hvY29sYXRlJTIwY2FjYW8lMjBuaWJzfGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cacao Criollo", tipo: "Mazorca", imagen: sharedImages.cacaoPods },
+      { nombre: "Granos Tostados", tipo: "Cacao", imagen: sharedImages.cacaoBeans },
+      { nombre: "Licor de Cacao", tipo: "Procesado", imagen: sharedImages.cacaoBeans },
     ],
     productosConvencionales: [
-      {
-        nombre: "Vainilla",
-        tipo: "Especia",
-        imagen:
-          "https://images.unsplash.com/photo-1592788174877-3f99727fd23d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2YW5pbGxhJTIwYmVhbnMlMjBwb2RzfGVufDF8fHx8MTc3NDk5OTUzMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      },
-      {
-        nombre: "Chile Jalapeño",
-        tipo: "Hortaliza",
-        imagen:
-          "https://images.unsplash.com/photo-1627770246352-35d53657538f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqYWxhcGVubyUyMHBlcHBlcnMlMjBmcmVzaCUyMGdyZWVufGVufDF8fHx8MTc3NDk5OTUzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      },
-      {
-        nombre: "Tomate",
-        tipo: "Hortaliza",
-        imagen:
-          "https://images.unsplash.com/photo-1443131612988-32b6d97cc5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjB0b21hdG9lcyUyMGZyZXNofGVufDF8fHx8MTc3NDk1MjQzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      },
+      { nombre: "Vainilla", tipo: "Especia", imagen: sharedImages.greenLandscape },
+      { nombre: "Chile Jalapeno", tipo: "Hortaliza", imagen: sharedImages.agriculturalFields },
+      { nombre: "Tomate", tipo: "Hortaliza", imagen: sharedImages.tropicalFarm },
     ],
   },
-
-  // Ana Morales - Productora diversificada con enfoque en café y cacao
   "4": {
     name: "Ana Morales",
     location: "Antioquia, Colombia",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBvcnRyYWl0JTIwc21pbGV8ZW58MXx8fHwxNzc0ODIxODk5fDA&ixlib=rb-4.1.0&q=80&w=400",
+    avatar: sharedImages.femalePortrait2,
     carouselImages: [
-      "https://images.unsplash.com/photo-1599565103151-694e8f2745e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBmYXJtJTIwYWVyaWFsJTIwdmlld3xlbnwxfHx8fDE3NzQ3MjE4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGZhcm1pbmclMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzc0NzIxODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      sharedImages.coffeeAerial,
+      sharedImages.cacaoPods,
+      sharedImages.cocoaLandscape,
     ],
     productosOrganicos: [
-      {
-        nombre: "Cacao Trinitario",
-        tipo: "Mazorca",
-        imagen:
-          "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Granos Premium",
-        tipo: "Cacao",
-        imagen:
-          "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGJlYW5zJTIwZmVybWVudGVkJTIwZHJ5aW5nfGVufDF8fHx8MTc3NDgyMTg5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cacao Trinitario", tipo: "Mazorca", imagen: sharedImages.cacaoPods },
+      { nombre: "Granos Premium", tipo: "Cacao", imagen: sharedImages.cacaoBeans },
     ],
     productosConvencionales: [
-      {
-        nombre: "Café Colombia",
-        tipo: "Grano",
-        imagen:
-          "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMGZyZXNofGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Banano",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1603833665858-e61d17a86224?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbGF0YW5vJTIwYmFuYW5hJTIwdHJvcGljYWx8ZW58MXx8fHwxNzc0ODIxODk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Naranja",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1547514701-42782101795e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmFuZ2UlMjBmcnVpdCUyMGZyZXNofGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Arroz",
-        tipo: "Grano",
-        imagen:
-          "https://images.unsplash.com/photo-1586201375761-83865001e31c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyaWNlJTIwZ3JhaW4lMjB3aGl0ZXxlbnwxfHx8fDE3NzQ4MjE4OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Limón",
-        tipo: "Fruta",
-        imagen:
-          "https://images.unsplash.com/photo-1590502593747-42a996133562?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZW1vbiUyMGZydWl0JTIwZnJlc2h8ZW58MXx8fHwxNzc0ODIxODk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
+      { nombre: "Cafe Colombia", tipo: "Grano", imagen: sharedImages.coffeeAerial },
+      { nombre: "Banano", tipo: "Fruta", imagen: sharedImages.greenLandscape },
+      { nombre: "Naranja", tipo: "Fruta", imagen: sharedImages.tropicalFarm },
+      { nombre: "Arroz", tipo: "Grano", imagen: sharedImages.agriculturalFields },
+      { nombre: "Limon", tipo: "Fruta", imagen: sharedImages.greenLandscape },
     ],
   },
+};
 
-  // Resto de productores - Genéricos
-  "5": {
-    name: "Diego Fernández",
-    location: "Cusco, Perú",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBwb3J0cmFpdCUyMGNhc3VhbHxlbnwxfHx8fDE3NzQ4MjE5MDB8MA&ixlib=rb-4.1.0&q=80&w=400",
+function buildGenericProfile(listItem: ProducerListItem): ProductorData {
+  return {
+    name: listItem.producerName,
+    location: listItem.location,
+    avatar: listItem.profilePhoto,
     carouselImages: [
-      "https://images.unsplash.com/photo-1765570265263-edda751afcd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwZmFybSUyMGdyZWVuJTIwbGFuZHNjYXBlfGVufDF8fHx8MTc3NDcyMTg0NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1763241841248-11aa17ab625a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGZhcm1pbmclMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzc0NzIxODQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      listItem.imageUrl,
+      genericCarouselImages[listItem.id % genericCarouselImages.length],
+      genericCarouselImages[(listItem.id + 2) % genericCarouselImages.length],
     ],
-    productosOrganicos: [
-      {
-        nombre: "Cacao Orgánico",
-        tipo: "Mazorca",
-        imagen:
-          "https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWNhbyUyMHBvZHMlMjB0cmVlJTIwcGxhbnRhdGlvbnxlbnwxfHx8fDE3NzQ4MjE4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Granos de Cacao",
-        tipo: "Fermentado",
-        imagen:
-          "https://images.unsplash.com/photo-1714102367897-4a19259feb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NvYSUyMGJlYW5zJTIwZmVybWVudGVkJTIwZHJ5aW5nfGVufDF8fHx8MTc3NDgyMTg5NHww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        nombre: "Nibs de Cacao",
-        tipo: "Procesado",
-        imagen:
-          "https://images.unsplash.com/photo-1772986238545-ee975ad77780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwY2hvY29sYXRlJTIwY2FjYW8lMjBuaWJzfGVufDF8fHx8MTc3NDgyMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-    ],
-    productosConvencionales: [],
-  },
+    productosOrganicos: organicProductTemplates.slice(0, 2 + (listItem.id % 2)),
+    productosConvencionales: conventionalProductTemplates.slice(0, 1 + (listItem.id % 3)),
+  };
+}
+
+export const productoresData: Record<string, ProductorData> = Object.fromEntries(
+  productoresList.map((producer) => [
+    String(producer.id),
+    richProductoresData[String(producer.id)] ?? buildGenericProfile(producer),
+  ]),
+);
+
+export const dashboardMetrics = {
+  totalProductores: TOTAL_PRODUCTORES,
+  totalHectareas: Number(
+    productoresList.reduce((sum, producer) => sum + producer.hectares, 0).toFixed(1),
+  ),
+  comprasMes: 45280,
+  toneladasCacao: 156.8,
+  hectareasDeforestacion: 28.5,
+  productoresLibresDeforestacion: 96,
+  productoresConDeforestacion: 27,
+  certificacionesOrganicas: 84,
+  certificacionesUsdaRainforest: 97,
+  buenasPracticasAgricolas: 109,
 };

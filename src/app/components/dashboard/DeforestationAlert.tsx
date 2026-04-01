@@ -25,7 +25,7 @@ export function DeforestationAlert({
               Estado de Deforestación Normal
             </h3>
             <p className="font-['Poppins:Regular',sans-serif] text-[14px] md:text-[16px] text-[#637381] leading-[1.6]">
-              {hectaresAffected} ha ({percentage.toFixed(1)}%) con deforestación detectada de {totalHectares} ha totales.
+              {hectaresAffected} Ha ({percentage.toFixed(1)}%) con deforestación detectada de {totalHectares} Ha totales.
             </p>
             <p className="font-['Poppins:Regular',sans-serif] text-[13px] md:text-[14px] text-[#919EAB] leading-[1.5]">
               Los niveles están dentro de los parámetros aceptables.

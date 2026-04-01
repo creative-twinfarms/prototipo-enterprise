@@ -18,7 +18,7 @@ const certifications: CertificationItem[] = [
     icon: "leaf",
   },
   {
-    name: "Certificaciones (USDA/Rainforest)",
+    name: "Certificaciones (USDA/Organic)",
     count: dashboardMetrics.certificacionesUsdaRainforest,
     total: dashboardMetrics.totalProductores,
     color: "#2196f3",

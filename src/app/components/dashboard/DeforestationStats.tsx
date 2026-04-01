@@ -26,7 +26,7 @@ export function DeforestationStats() {
             Hectareas Totales vs Deforestadas
           </p>
           <p className="font-['Poppins:Regular',sans-serif] text-[13px] text-[#637381]">
-            {totalHectareas} ha totales
+            {totalHectareas} Ha totales
           </p>
         </div>
 
@@ -39,13 +39,13 @@ export function DeforestationStats() {
           <div className="flex items-center gap-[6px]">
             <div className="h-[12px] w-[12px] rounded-full bg-[#00512f]" />
             <p className="font-['Poppins:Regular',sans-serif] text-[12px] text-[#637381] md:text-[13px]">
-              Libres: {hectareasLibres} ha ({porcentajeLibre}%)
+              Libres: {hectareasLibres} Ha ({porcentajeLibre}%)
             </p>
           </div>
           <div className="flex items-center gap-[6px]">
             <div className="h-[12px] w-[12px] rounded-full bg-[#ef5350]" />
             <p className="font-['Poppins:Regular',sans-serif] text-[12px] text-[#637381] md:text-[13px]">
-              Deforestadas: {hectareasDeforestacion} ha ({porcentajeDeforestado}%)
+              Deforestadas: {hectareasDeforestacion} Ha ({porcentajeDeforestado}%)
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export function DeforestationStats() {
                 {productoresLibresDeforestacion}
               </p>
               <p className="font-['Poppins:Regular',sans-serif] text-[12px] text-[#637381]">
-                de {totalProductores}
+                productores de {totalProductores}
               </p>
             </div>
           </div>
@@ -81,7 +81,7 @@ export function DeforestationStats() {
                 {productoresConDeforestacion}
               </p>
               <p className="font-['Poppins:Regular',sans-serif] text-[12px] text-[#637381]">
-                de {totalProductores}
+                productores de {totalProductores}
               </p>
             </div>
           </div>
